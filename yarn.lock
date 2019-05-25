@@ -9111,6 +9111,14 @@ stylehacks@^4.0.0:
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
 
+styletron-engine-atomic@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/styletron-engine-atomic/-/styletron-engine-atomic-1.1.2.tgz#b3cec962ab89fa133da0c87227f897350aeeef11"
+  integrity sha512-6N258sCi5dyjvITKqJkaJG1AZxOyXY7xuedetJeMlcgjfxTVSPZi0+EYJlcGr9MGnqxJerAMNpq2CtI7jrQ67A==
+  dependencies:
+    inline-style-prefixer "^4.0.0"
+    styletron-standard "^2.0.3"
+
 styletron-react@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/styletron-react/-/styletron-react-5.0.1.tgz#b923a3d8f46d837f43bc0a1f1429185187419f61"
