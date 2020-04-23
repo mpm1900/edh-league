@@ -5,6 +5,7 @@ export interface DeckT {
   name: string
   userId: string
   commanders: any[]
+  url?: string
 }
 
 export const ADD_DECK = 'decks/ADD_DECK'
@@ -31,8 +32,8 @@ export const upsertDeck = (deck: DeckT) => (
   dispatch: Function,
   getState: Function,
 ) => {
-  const state = getState()
-  if (state.map((d: DeckT) => d.id).contains(deck.id)) {
+  const state = getState().decks
+  if (state.map((d: DeckT) => d.id).includes(deck.id)) {
     dispatch(updateDeck(deck))
   } else {
     dispatch(addDeck(deck))

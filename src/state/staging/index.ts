@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { PlayerT } from '../players'
 import { DeckT } from '../decks'
 
@@ -33,4 +33,23 @@ export const removeEntry = (entryId: string) => ({
 
 export const useStaging = () => {
   return useSelector((state: any) => state.staging)
+}
+export const usePopulatedStaging = () => {
+  return useSelector((state: any) => {
+    return state.staging.map((entry: EntryT) => {
+      const pE: PopulatedEntryT = {
+        id: entry.id,
+        player: state.players.find((p: PlayerT) => p.id === entry.playerId),
+        deck: state.decks.find((d: DeckT) => d.id === entry.deckId),
+      }
+      return pE
+    })
+  })
+}
+export const useStagingActions = () => {
+  const dispatch = useDispatch()
+  return {
+    addEntry: (entry: EntryT) => dispatch(addEntry(entry)),
+    removeEntry: (entryId: string) => dispatch(removeEntry(entryId)),
+  }
 }

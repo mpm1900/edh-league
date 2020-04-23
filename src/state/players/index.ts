@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 export interface PlayerT {
   id: string
@@ -29,8 +29,9 @@ export const upsertPlayer = (player: PlayerT) => (
   dispatch: Function,
   getState: Function,
 ) => {
-  const state = getState()
-  if (state.map((p: PlayerT) => p.id).contains(player.id)) {
+  const state = getState().players
+  console.log('STATE', state)
+  if (state.map((p: PlayerT) => p.id).includes(player.id)) {
     dispatch(updatePlayer(player))
   } else {
     dispatch(addPlayer(player))
@@ -39,4 +40,12 @@ export const upsertPlayer = (player: PlayerT) => (
 
 export const usePlayers = () => {
   return useSelector((state: any) => state.players || [])
+}
+export const usePlayersActions = () => {
+  const dispatch = useDispatch()
+  return {
+    addPlayer: (player: PlayerT) => dispatch(addPlayer(player)),
+    updatePlayer: (player: PlayerT) => dispatch(updatePlayer(player)),
+    upsertPlayer: (player: PlayerT) => dispatch(upsertPlayer(player)),
+  }
 }

@@ -15,6 +15,7 @@ import { Flex } from '../../elements/flex'
 import { Button } from 'baseui/button'
 import { StyledLink } from 'baseui/link'
 import { CommanderSelect } from '../../components/CommanderSelect'
+import { usePopulatedStaging, PopulatedEntryT } from '../../state/staging'
 
 const SmallerHeadCell = withStyle(StyledHeadCell, {
   maxWidth: '30px',
@@ -24,37 +25,17 @@ const SmallerCell = withStyle(StyledCell, {
 })
 
 export const LeaguePlanner = () => {
+  const entries = usePopulatedStaging()
   const columns = ['2', 'Name', 'Commander', 'Deck']
-  const data = [
-    [
-      <Checkbox />,
-      'Max Miller',
-      'Thrasios and Tymna',
-      <Flex $dir='row' $style={{ alignItems: 'center' }}>
-        <StyledLink href='#' style={{ marginRight: '12px' }}>
-          Razakats
-        </StyledLink>
-        <i className='ms ms-w' />
-        <i className='ms ms-u' />
-        <i className='ms ms-b' />
-        <i className='ms ms-g' />
-      </Flex>,
-    ],
-    [
-      <Checkbox />,
-      'Jeremy Wagner',
-      'Thrasios and Tymna',
-      <Flex $dir='row' $style={{ alignItems: 'center' }}>
-        <StyledLink href='#' style={{ marginRight: '12px' }}>
-          Sushi Hulk
-        </StyledLink>
-        <i className='ms ms-w' />
-        <i className='ms ms-u' />
-        <i className='ms ms-b' />
-        <i className='ms ms-g' />
-      </Flex>,
-    ],
-  ]
+  const data: any[][] = entries.map((entry: PopulatedEntryT) => [
+    <Checkbox />,
+    entry.player.name,
+    entry.deck.commanders.map((c) => c.name),
+    entry.deck.name,
+  ])
+
+  console.log(entries, data)
+
   return (
     <div className='LeaguePlanner' style={{ padding: '24px' }}>
       <Flex $dir='row' style={{ marginBottom: '24px', alignItems: 'center' }}>

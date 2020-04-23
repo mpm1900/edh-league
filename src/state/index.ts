@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import { core as players } from './players'
 import { core as decks } from './decks'
 import { core as staging } from './staging'
@@ -21,5 +22,5 @@ export const reducer = combineReducers({
 })
 
 export const makeStore = () => {
-  return createStore(reducer)
+  return createStore(reducer, applyMiddleware(thunk))
 }

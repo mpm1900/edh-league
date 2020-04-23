@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { v4 } from 'uuid'
 import { Input } from 'baseui/input'
 import { Button } from 'baseui/button'
 import { Plus } from 'baseui/icon'
@@ -8,11 +9,53 @@ import { Select } from 'baseui/select'
 import { Label3 } from 'baseui/typography'
 import { StyledLink } from 'baseui/link'
 import { Flex } from '../../elements/flex'
+import { useDecks, useDecksActions, DeckT } from '../../state/decks'
+import { usePlayers, usePlayersActions, PlayerT } from '../../state/players'
+import { useStagingActions } from '../../state/staging'
+import { useModalContext } from '../../contexts/ModalContext'
 
 export interface CheckInFormT {}
 export const CheckInForm = (props: CheckInFormT) => {
+  const modalContext = useModalContext()
   const [createPlayer, setCreatePlayer] = useState(false)
   const [createDeck, setCreateDeck] = useState(false)
+  const [deckId, setDeckId] = useState<string>('')
+  const [playerId, setPlayerId] = useState<string>('')
+  const [tempDeck, setTempDeck] = useState<DeckT>({
+    id: v4(),
+    userId: '',
+    name: '',
+    commanders: [],
+  })
+  const [tempPlayer, setTempPlayer] = useState<PlayerT>({ id: v4(), name: '' })
+  const decks = useDecks()
+  const players = usePlayers()
+  const { upsertDeck } = useDecksActions()
+  const { upsertPlayer } = usePlayersActions()
+  const { addEntry } = useStagingActions()
+
+  const handleSubmit = () => {
+    let _deckId = deckId
+    let _playerId = playerId
+    if (createPlayer) {
+      upsertPlayer(tempPlayer)
+      _playerId = tempPlayer.id
+    }
+    if (createDeck) {
+      upsertDeck({
+        ...tempDeck,
+        userId: tempPlayer.id,
+      })
+      _deckId = tempDeck.id
+    }
+
+    addEntry({
+      id: v4(),
+      playerId: _playerId,
+      deckId: _deckId,
+    })
+  }
+
   return (
     <div className='CheckInForm'>
       <ModalHeader>Check In</ModalHeader>
@@ -67,8 +110,8 @@ export const CheckInForm = (props: CheckInFormT) => {
         )}
       </ModalBody>
       <ModalFooter>
-        <ModalButton>Cancel</ModalButton>
-        <ModalButton disabled>Okay</ModalButton>
+        <ModalButton onClick={modalContext.close}>Cancel</ModalButton>
+        <ModalButton onClick={handleSubmit}>Okay</ModalButton>
       </ModalFooter>
     </div>
   )

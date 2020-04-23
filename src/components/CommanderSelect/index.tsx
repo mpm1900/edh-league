@@ -8,15 +8,17 @@ export const CommanderSelect = () => {
   const [options, setOptions] = useState<string[]>([])
   const handleChange = (value: any) => {
     setValue(value)
-    console.log('VALUE', value)
-    getCardByName(value[0].label, false, (err, card) =>
-      console.log('CARD', card),
+    getCardByName(
+      value[0].label,
+      false,
+      (err, card) =>
+        // console.log('CARD', card),
+        null,
     )
   }
   useEffect(() => {
     Scryfall.autocomplete(input, (matches) => setOptions(matches))
   }, [input])
-  console.log(value)
   return (
     <Select
       multi
@@ -28,7 +30,7 @@ export const CommanderSelect = () => {
       placeholder='Select Commander'
       onChange={(params: any) => handleChange(params.value)}
       onInputChange={(event: any) => setInput(event.target.value)}
-      maxDropdownHeight="200px"
+      maxDropdownHeight='200px'
     />
   )
 }
