@@ -101,7 +101,7 @@ export const CheckInForm = (props: CheckInFormT) => {
         )}
         {!createDeck ? (
           <Flex $dir='row'>
-            <Select placeholder='Select Deck' />
+            <Select placeholder='Select Deck' options={decks} labelKey='name' />
             <Button onClick={() => setCreateDeck(true)}>
               <Plus />
             </Button>

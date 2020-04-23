@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import { core as players } from './players'
 import { core as decks } from './decks'
 import { core as staging } from './staging'
+import { core as seasons } from './seasons'
 
 export const makeReducer = (core: any) => (
   state: any[] = [],
@@ -19,6 +20,7 @@ export const reducer = combineReducers({
   players: makeReducer(players),
   decks: makeReducer(decks),
   staging: makeReducer(staging),
+  seasons: makeReducer(seasons),
 })
 
 export const makeStore = () => {

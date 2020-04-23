@@ -1,12 +1,11 @@
 import React from 'react'
-import { Header } from './components'
-import { LeaguePlanner } from './domain'
+import { MainRoutes, HeaderRoutes } from './routes'
 
 export const App = () => {
   return (
     <div className='App'>
-      <Header />
-      <LeaguePlanner />
+      <HeaderRoutes />
+      <MainRoutes />
     </div>
   )
 }

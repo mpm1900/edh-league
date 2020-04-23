@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
 import { Client as Styletron } from 'styletron-engine-atomic'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { DarkTheme, BaseProvider, styled } from 'baseui'
+import { BrowserRouter } from 'react-router-dom'
 import { ModalContextProvider } from './ModalContext'
 import { makeStore } from '../state'
 
@@ -13,16 +14,15 @@ export interface AppContextProviderT {
 }
 export const AppContextProvider = (props: AppContextProviderT) => {
   const { children } = props
-  useEffect(() => {
-    localStorage.setItem('state', JSON.stringify(store.getState()))
-  }, [JSON.stringify(store.getState())])
   return (
     <ReduxProvider store={store}>
-      <StyletronProvider value={engine}>
-        <BaseProvider theme={DarkTheme}>
-          <ModalContextProvider>{children}</ModalContextProvider>
-        </BaseProvider>
-      </StyletronProvider>
+      <BrowserRouter>
+        <StyletronProvider value={engine}>
+          <BaseProvider theme={DarkTheme}>
+            <ModalContextProvider>{children}</ModalContextProvider>
+          </BaseProvider>
+        </StyletronProvider>
+      </BrowserRouter>
     </ReduxProvider>
   )
 }

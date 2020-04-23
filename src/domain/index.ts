@@ -1,1 +1,1 @@
-export * from './LeagePlanner'
+export * from './Home'
