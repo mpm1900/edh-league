@@ -56,7 +56,7 @@ export const Home = () => {
             creatable={false}
             searchable={false}
             value={season}
-            placeholder='Select Season'
+            placeholder={season ? '' : 'Select Season'}
             options={seasons}
             labelKey='name'
             onChange={(e: any) => setSeason(e.value[0])}
