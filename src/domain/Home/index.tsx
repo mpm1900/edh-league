@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { withStyle } from 'baseui'
 import {
   StyledTable,
@@ -29,6 +29,7 @@ export const Home = () => {
   const history = useHistory()
   const entries = usePopulatedStaging()
   const seasons = useSeasons()
+  const [season, setSeason] = useState()
   const columns = ['2', 'Name', 'Commander', 'Deck']
   const data: any[][] = entries.map((entry: PopulatedEntryT) => [
     <Checkbox />,
@@ -52,12 +53,16 @@ export const Home = () => {
         <div style={{ flex: 1 }} />
         <div style={{ maxWidth: '300px' }}>
           <Select
+            creatable={false}
+            searchable={false}
+            value={season}
             placeholder='Select Season'
             options={seasons}
             labelKey='name'
+            onChange={(e: any) => setSeason(e.value[0])}
           />
         </div>
-        <Button>Make Pairings</Button>
+        <Button disabled={entries.length <= 2}>Make Pairings</Button>
       </Flex>
       <StyledTable>
         <StyledHead>
