@@ -4,7 +4,7 @@ import { actions, ModalContextStateT, reducer, initialState } from './state'
 
 const defaultContext = {
   open: (contents: any, blocking?: boolean) => {},
-  close: (payload: any) => {},
+  close: (payload?: any) => {},
 }
 export const ModalContext = React.createContext(defaultContext)
 export const useModalContext = () => useContext(ModalContext)
@@ -13,7 +13,7 @@ const getContextValue = (state: ModalContextStateT, dispatch: Function) => ({
   isOpen: state.isOpen,
   open: (contents: any, blocking?: boolean) =>
     dispatch(actions.open(contents, blocking)),
-  close: (payload: any) => {
+  close: (payload?: any) => {
     if (state.callback) state.callback(payload || state.payload)
     dispatch(actions.close())
   },

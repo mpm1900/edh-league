@@ -54,6 +54,7 @@ export const CheckInForm = (props: CheckInFormT) => {
       playerId: _playerId,
       deckId: _deckId,
     })
+    modalContext.close()
   }
 
   return (
@@ -77,7 +78,18 @@ export const CheckInForm = (props: CheckInFormT) => {
               </StyledLink>
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>
-              <Input placeholder='Enter Player Name' />
+              <Input
+                value={tempPlayer.name}
+                placeholder='Enter Player Name'
+                onChange={(e: any) => {
+                  e.persist()
+                  console.log('event', e)
+                  setTempPlayer((p) => ({
+                    ...p,
+                    name: e.target.value,
+                  }))
+                }}
+              />
             </Flex>
           </div>
         )}
@@ -98,10 +110,27 @@ export const CheckInForm = (props: CheckInFormT) => {
               </StyledLink>
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>
-              <CommanderSelect />
+              <CommanderSelect
+                onChange={(cards: any[]) =>
+                  setTempDeck((d) => ({
+                    ...d,
+                    commanders: cards,
+                  }))
+                }
+              />
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>
-              <Input placeholder='Enter Deck Name' />
+              <Input
+                placeholder='Enter Deck Name'
+                onChange={(e: any) => {
+                  e.persist()
+                  console.log('event', e)
+                  setTempDeck((d) => ({
+                    ...d,
+                    name: e.target.value,
+                  }))
+                }}
+              />
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>
               <Input placeholder='URL (Optional)' />
