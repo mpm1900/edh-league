@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { ModalContextProvider } from './ModalContext'
 import { makeStore } from '../state'
 
-const store = makeStore()
+const store = makeStore(JSON.parse(localStorage.getItem('state') || ''))
 const engine = new Styletron()
 export interface AppContextProviderT {
   children: any

@@ -4,6 +4,7 @@ import { core as players } from './players'
 import { core as decks } from './decks'
 import { core as staging } from './staging'
 import { core as seasons } from './seasons'
+import { localStore } from './lsStore'
 
 export const makeReducer = (core: any) => (
   state: any[] = [],
@@ -23,6 +24,6 @@ export const reducer = combineReducers({
   seasons: makeReducer(seasons),
 })
 
-export const makeStore = () => {
-  return createStore(reducer, applyMiddleware(thunk))
+export const makeStore = (initalState: any) => {
+  return createStore(reducer, initalState, applyMiddleware(thunk, localStore))
 }

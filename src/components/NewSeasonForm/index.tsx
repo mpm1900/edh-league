@@ -27,7 +27,9 @@ export const NewSeasonForm = (props: NewSeasonFormT) => {
         />
       </ModalBody>
       <ModalFooter>
-        <ModalButton onClick={handleSubmit}>Create</ModalButton>
+        <ModalButton disabled={name == ''} onClick={handleSubmit}>
+          Create
+        </ModalButton>
       </ModalFooter>
     </div>
   )

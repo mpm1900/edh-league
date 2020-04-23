@@ -9,7 +9,7 @@ export const Seasons = () => {
 
   useEffect(() => {
     if (seasons.length === 0) {
-      modalContext.open(<NewSeasonForm />)
+      modalContext.open(<NewSeasonForm />, true)
     }
   }, [])
 
