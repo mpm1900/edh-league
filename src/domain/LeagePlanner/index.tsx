@@ -30,7 +30,9 @@ export const LeaguePlanner = () => {
   const data: any[][] = entries.map((entry: PopulatedEntryT) => [
     <Checkbox />,
     entry.player.name,
-    entry.deck.commanders.map((c) => c.name),
+    `${entry.deck.commanders[0].name}${
+      entry.deck.commanders[1] ? ', ' + entry.deck.commanders[1].name : ''
+    }`,
     entry.deck.name,
   ])
 

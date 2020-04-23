@@ -17,8 +17,6 @@ import { useModalContext } from '../../contexts/ModalContext'
 export interface CheckInFormT {}
 export const CheckInForm = (props: CheckInFormT) => {
   const modalContext = useModalContext()
-  const [createPlayer, setCreatePlayer] = useState(false)
-  const [createDeck, setCreateDeck] = useState(false)
   const [deckId, setDeckId] = useState<string>('')
   const [playerId, setPlayerId] = useState<string>('')
   const [tempDeck, setTempDeck] = useState<DeckT>({
@@ -33,6 +31,8 @@ export const CheckInForm = (props: CheckInFormT) => {
   const { upsertDeck } = useDecksActions()
   const { upsertPlayer } = usePlayersActions()
   const { addEntry } = useStagingActions()
+  const [createPlayer, setCreatePlayer] = useState(players.length === 0)
+  const [createDeck, setCreateDeck] = useState(decks.length === 0)
 
   const handleSubmit = () => {
     let _deckId = deckId
@@ -63,7 +63,11 @@ export const CheckInForm = (props: CheckInFormT) => {
       <ModalBody>
         {!createPlayer ? (
           <Flex $dir='row' $style={{ marginBottom: '12px' }}>
-            <Select placeholder='Select Player' />
+            <Select
+              placeholder='Select Player'
+              options={players}
+              labelKey='name'
+            />
             <Button onClick={() => setCreatePlayer(true)}>
               <Plus />
             </Button>
@@ -73,9 +77,11 @@ export const CheckInForm = (props: CheckInFormT) => {
             <Flex $dir='row' $style={{ marginBottom: '4px' }}>
               <Label3>New Player</Label3>
               <div style={{ flex: 1 }} />
-              <StyledLink onClick={() => setCreatePlayer(false)}>
-                (Cancel)
-              </StyledLink>
+              {players.length > 0 && (
+                <StyledLink onClick={() => setCreatePlayer(false)}>
+                  (Cancel)
+                </StyledLink>
+              )}
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>
               <Input
@@ -105,18 +111,21 @@ export const CheckInForm = (props: CheckInFormT) => {
             <Flex $dir='row' $style={{ marginBottom: '4px' }}>
               <Label3>New Deck</Label3>
               <div style={{ flex: 1 }} />
-              <StyledLink onClick={() => setCreateDeck(false)}>
-                (Cancel)
-              </StyledLink>
+              {decks.length > 0 && (
+                <StyledLink onClick={() => setCreateDeck(false)}>
+                  (Cancel)
+                </StyledLink>
+              )}
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>
               <CommanderSelect
-                onChange={(cards: any[]) =>
+                onChange={(cards: any[]) => {
+                  console.log('CARDS onc', cards)
                   setTempDeck((d) => ({
                     ...d,
                     commanders: cards,
                   }))
-                }
+                }}
               />
             </Flex>
             <Flex $dir='row' $style={{ marginBottom: '12px' }}>

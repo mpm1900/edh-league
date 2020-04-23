@@ -15,6 +15,7 @@ export const CommanderSelect = (props: CommanderSelectT) => {
     setValue(values)
   }
   useEffect(() => {
+    setCardValues([])
     value.forEach((co) => {
       getCardByName(co.name, false, (err, card) => {
         if (!err) {
@@ -32,6 +33,7 @@ export const CommanderSelect = (props: CommanderSelectT) => {
   useEffect(() => {
     Scryfall.autocomplete(input, (matches) => setOptions(matches))
   }, [input])
+
   return (
     <Select
       multi
