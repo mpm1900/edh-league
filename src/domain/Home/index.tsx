@@ -62,7 +62,7 @@ export const Home = () => {
             onChange={(e: any) => setSeason(e.value[0])}
           />
         </div>
-        <Button disabled={entries.length <= 2}>Make Pairings</Button>
+        <Button disabled={entries.length <= 2 || !season}>Make Pairings</Button>
       </Flex>
       <StyledTable>
         <StyledHead>

@@ -17,8 +17,8 @@ import { useModalContext } from '../../contexts/ModalContext'
 export interface CheckInFormT {}
 export const CheckInForm = (props: CheckInFormT) => {
   const modalContext = useModalContext()
-  const [deckId, setDeckId] = useState<string>('')
-  const [playerId, setPlayerId] = useState<string>('')
+  const [deck, setDeck] = useState<DeckT>()
+  const [player, setPlayer] = useState<PlayerT>()
   const [tempDeck, setTempDeck] = useState<DeckT>({
     id: v4(),
     userId: '',
@@ -33,26 +33,29 @@ export const CheckInForm = (props: CheckInFormT) => {
   const { addEntry } = useStagingActions()
   const [createPlayer, setCreatePlayer] = useState(players.length === 0)
   const [createDeck, setCreateDeck] = useState(decks.length === 0)
+  const canSubmit =
+    ((deck && deck.id) || tempDeck.name) &&
+    ((player && player.id) || tempPlayer.name)
 
   const handleSubmit = () => {
-    let _deckId = deckId
-    let _playerId = playerId
+    let deckId = deck ? deck.id : ''
+    let playerId = player ? player.id : ''
     if (createPlayer) {
       upsertPlayer(tempPlayer)
-      _playerId = tempPlayer.id
+      playerId = tempPlayer.id
     }
     if (createDeck) {
       upsertDeck({
         ...tempDeck,
         userId: tempPlayer.id,
       })
-      _deckId = tempDeck.id
+      deckId = tempDeck.id
     }
 
     addEntry({
       id: v4(),
-      playerId: _playerId,
-      deckId: _deckId,
+      playerId: playerId,
+      deckId: deckId,
     })
     modalContext.close()
   }
@@ -64,7 +67,9 @@ export const CheckInForm = (props: CheckInFormT) => {
         {!createPlayer ? (
           <Flex $dir='row' $style={{ marginBottom: '12px' }}>
             <Select
+              value={player ? [player] : undefined}
               placeholder='Select Player'
+              onChange={(e: any) => setPlayer(e.value[0])}
               options={players}
               labelKey='name'
             />
@@ -89,7 +94,6 @@ export const CheckInForm = (props: CheckInFormT) => {
                 placeholder='Enter Player Name'
                 onChange={(e: any) => {
                   e.persist()
-                  console.log('event', e)
                   setTempPlayer((p) => ({
                     ...p,
                     name: e.target.value,
@@ -101,7 +105,13 @@ export const CheckInForm = (props: CheckInFormT) => {
         )}
         {!createDeck ? (
           <Flex $dir='row'>
-            <Select placeholder='Select Deck' options={decks} labelKey='name' />
+            <Select
+              placeholder='Select Deck'
+              options={decks}
+              labelKey='name'
+              value={deck ? [deck] : undefined}
+              onChange={(e: any) => setDeck(e.value[0])}
+            />
             <Button onClick={() => setCreateDeck(true)}>
               <Plus />
             </Button>
@@ -149,7 +159,9 @@ export const CheckInForm = (props: CheckInFormT) => {
       </ModalBody>
       <ModalFooter>
         <ModalButton onClick={modalContext.close}>Cancel</ModalButton>
-        <ModalButton onClick={handleSubmit}>Okay</ModalButton>
+        <ModalButton disabled={!canSubmit} onClick={handleSubmit}>
+          Okay
+        </ModalButton>
       </ModalFooter>
     </div>
   )
