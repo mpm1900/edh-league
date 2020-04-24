@@ -35,7 +35,7 @@ export const Home = () => {
     <Checkbox />,
     entry.player.name,
     `${entry.deck.commanders[0].name}${
-      entry.deck.commanders[1] ? ', ' + entry.deck.commanders[1].name : ''
+      entry.deck.commanders[1] ? ' and ' + entry.deck.commanders[1].name : ''
     }`,
     <DeckName deck={entry.deck} />,
   ])
